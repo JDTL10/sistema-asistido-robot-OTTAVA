@@ -1,0 +1,110 @@
+{
+  "orthanc_instance_id": "ad254eec-c029ab05-90b17185-2f7a2f81-d3ce7aad",
+  "patient": {
+    "name": "Josué López",
+    "id": "OTTAVA-234123"
+  },
+  "study": {
+    "description": "Radiografía de tórax · Caso 1 · Demostración",
+    "study_instance_uid": "1.2.826.0.1.3680043.8.498.48178534069526463957471510323751918840",
+    "series_instance_uid": "1.2.826.0.1.3680043.8.498.41922811088407700677956206059214611205",
+    "sop_instance_uid": "1.2.826.0.1.3680043.8.498.81945780373392530734262294301732775885"
+  },
+  "model": "densenet121-res224-all",
+  "device": "mps",
+  "results": [
+    {
+      "pathology": "Lung Opacity",
+      "score": 0.8128843307495117
+    },
+    {
+      "pathology": "Pneumonia",
+      "score": 0.8092125654220581
+    },
+    {
+      "pathology": "Consolidation",
+      "score": 0.5501834154129028
+    },
+    {
+      "pathology": "Pleural_Thickening",
+      "score": 0.5369396209716797
+    },
+    {
+      "pathology": "Emphysema",
+      "score": 0.5343756079673767
+    },
+    {
+      "pathology": "Atelectasis",
+      "score": 0.5145639181137085
+    },
+    {
+      "pathology": "Mass",
+      "score": 0.513443648815155
+    },
+    {
+      "pathology": "Nodule",
+      "score": 0.5123035907745361
+    },
+    {
+      "pathology": "Enlarged Cardiomediastinum",
+      "score": 0.5100481510162354
+    },
+    {
+      "pathology": "Pneumothorax",
+      "score": 0.5079571008682251
+    },
+    {
+      "pathology": "Fracture",
+      "score": 0.5024405717849731
+    },
+    {
+      "pathology": "Infiltration",
+      "score": 0.491242915391922
+    },
+    {
+      "pathology": "Fibrosis",
+      "score": 0.24593403935432434
+    },
+    {
+      "pathology": "Effusion",
+      "score": 0.18885017931461334
+    },
+    {
+      "pathology": "Edema",
+      "score": 0.16024081408977509
+    },
+    {
+      "pathology": "Cardiomegaly",
+      "score": 0.06409040838479996
+    },
+    {
+      "pathology": "Hernia",
+      "score": 0.04869173839688301
+    },
+    {
+      "pathology": "Lung Lesion",
+      "score": 0.0024762300308793783
+    }
+  ],
+  "note": "Resultado de investigación/desarrollo. No constituye diagnóstico clínico.",
+  "segmentation": {
+    "model": "PSPNet ChestX-Det",
+    "targets": [
+      "Left Clavicle",
+      "Right Clavicle",
+      "Left Scapula",
+      "Right Scapula",
+      "Left Lung",
+      "Right Lung",
+      "Left Hilus Pulmonis",
+      "Right Hilus Pulmonis",
+      "Heart",
+      "Aorta",
+      "Facies Diaphragmatica",
+      "Mediastinum",
+      "Weasand",
+      "Spine"
+    ],
+    "overlay_path": "/Users/josuedanieltobarlopez/Downloads/OTTAVA_MASTER_FINAL/OTTAVA_AI_RESULTS/SEG_ad254eec-c029ab05-90b17185-2f7a2f81-d3ce7aad.png"
+  }
+}

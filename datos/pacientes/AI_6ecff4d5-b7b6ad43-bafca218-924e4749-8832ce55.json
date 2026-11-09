@@ -1,0 +1,110 @@
+{
+  "orthanc_instance_id": "6ecff4d5-b7b6ad43-bafca218-924e4749-8832ce55",
+  "patient": {
+    "name": "Josué López",
+    "id": "OTTAVA-234123"
+  },
+  "study": {
+    "description": "Radiografía de tórax · Caso 1 · Demostración",
+    "study_instance_uid": "1.2.826.0.1.3680043.8.498.80611183492448608925068169459190808812",
+    "series_instance_uid": "1.2.826.0.1.3680043.8.498.7620139148725974534503818472671989958",
+    "sop_instance_uid": "1.2.826.0.1.3680043.8.498.53311231604249744772255721897560676375"
+  },
+  "model": "densenet121-res224-all",
+  "device": "mps",
+  "results": [
+    {
+      "pathology": "Infiltration",
+      "score": 0.3763009309768677
+    },
+    {
+      "pathology": "Fibrosis",
+      "score": 0.2321738600730896
+    },
+    {
+      "pathology": "Pleural_Thickening",
+      "score": 0.22135861217975616
+    },
+    {
+      "pathology": "Nodule",
+      "score": 0.15342697501182556
+    },
+    {
+      "pathology": "Pneumothorax",
+      "score": 0.14679089188575745
+    },
+    {
+      "pathology": "Emphysema",
+      "score": 0.11840832978487015
+    },
+    {
+      "pathology": "Mass",
+      "score": 0.0636095255613327
+    },
+    {
+      "pathology": "Fracture",
+      "score": 0.056785594671964645
+    },
+    {
+      "pathology": "Consolidation",
+      "score": 0.0441393181681633
+    },
+    {
+      "pathology": "Lung Opacity",
+      "score": 0.01014665886759758
+    },
+    {
+      "pathology": "Enlarged Cardiomediastinum",
+      "score": 0.009589132852852345
+    },
+    {
+      "pathology": "Effusion",
+      "score": 0.007818401791155338
+    },
+    {
+      "pathology": "Atelectasis",
+      "score": 0.006822493858635426
+    },
+    {
+      "pathology": "Pneumonia",
+      "score": 0.003133085323497653
+    },
+    {
+      "pathology": "Lung Lesion",
+      "score": 0.0019009164534509182
+    },
+    {
+      "pathology": "Hernia",
+      "score": 0.0007741283043287694
+    },
+    {
+      "pathology": "Cardiomegaly",
+      "score": 0.0005293352296575904
+    },
+    {
+      "pathology": "Edema",
+      "score": 3.220009966753423e-05
+    }
+  ],
+  "note": "Resultado de investigación/desarrollo. No constituye diagnóstico clínico.",
+  "segmentation": {
+    "model": "PSPNet ChestX-Det",
+    "targets": [
+      "Left Clavicle",
+      "Right Clavicle",
+      "Left Scapula",
+      "Right Scapula",
+      "Left Lung",
+      "Right Lung",
+      "Left Hilus Pulmonis",
+      "Right Hilus Pulmonis",
+      "Heart",
+      "Aorta",
+      "Facies Diaphragmatica",
+      "Mediastinum",
+      "Weasand",
+      "Spine"
+    ],
+    "overlay_path": "/Users/josuedanieltobarlopez/Downloads/OTTAVA_MASTER_FINAL/OTTAVA_AI_RESULTS/SEG_6ecff4d5-b7b6ad43-bafca218-924e4749-8832ce55.png"
+  }
+}
