@@ -1,12 +1,19 @@
 # Guía de Usuario — OTTAVA
 
-OTTAVA es un simulador educativo de un sistema asistido por robot que integra control remoto, adquisición radiográfica simulada, DICOM, inteligencia artificial y visualización de expedientes.
+Esta guía describe el procedimiento básico para iniciar y utilizar el simulador OTTAVA.
 
-> **Uso exclusivamente educativo. Los resultados generados por IA no constituyen diagnóstico médico.**
+Para información detallada sobre instalación y replicación consulte el [documento técnico](docs/documento_tecnico.md).
 
----
+## 1. Requisitos
 
-## 1. Convención de rutas
+Para ejecutar OTTAVA se requiere:
+
+- Blender.
+- Python 3.
+- Dependencias incluidas en `requirements.txt`.
+- Orthanc PACS.
+- Docker.
+- Navegador web.
 
 En esta guía:
 
@@ -14,352 +21,172 @@ En esta guía:
 <ruta_del_repositorio>
 ```
 
-representa la carpeta donde el usuario clonó o descargó:
+representa la carpeta donde fue clonado el proyecto.
 
-```text
-sistema-asistido-robot-OTTAVA
-```
+## 2. Iniciar Orthanc
 
-Por lo tanto, la ubicación puede variar entre computadoras.
+Inicie el servidor Orthanc utilizado por OTTAVA.
 
----
-
-## 2. Requisitos
-
-Antes de utilizar OTTAVA se requiere:
-
-- Blender 5.2.2 LTS
-- Python 3
-- Orthanc
-- Docker Desktop
-- navegador web
-- teléfono o dispositivo conectado a la misma red local
-
-Las instrucciones completas de instalación se encuentran en:
-
-```text
-docs/documento_tecnico.md
-```
-
----
-
-## 3. Iniciar OTTAVA
-
-Los servicios deben iniciarse en este orden:
-
-```text
-Orthanc
-   ↓
-Docker Desktop
-   ↓
-OHIF Viewer
-   ↓
-API OTTAVA
-   ↓
-Blender
-   ↓
-Aplicación móvil
-```
-
-### Orthanc
-
-Iniciar Orthanc desde su carpeta de instalación.
-
-La interfaz normalmente estará disponible en:
+Compruebe su funcionamiento desde:
 
 ```text
 http://localhost:8042
 ```
 
-### OHIF
+Orthanc almacena los estudios DICOM generados durante la simulación.
 
-Desde:
+![Estudio DICOM en Orthanc](docs/img/orthanc_estudio.png)
+
+## 3. Iniciar OHIF
+
+Abra Terminal y ejecute:
 
 ```bash
 cd <ruta_del_repositorio>/src/simulacion/api/visor/ohif
+chmod +x start-ohif.command stop-ohif.command
+./start-ohif.command
 ```
 
-ejecutar el script de inicio incluido.
-
-OHIF estará disponible en:
+OHIF estará disponible normalmente en:
 
 ```text
 http://localhost:3000
 ```
 
-### API OTTAVA
+![Visualización en OHIF](docs/img/ohif.png)
 
-Ingresar a:
+## 4. Iniciar la API
+
+Abra otra Terminal:
 
 ```bash
 cd <ruta_del_repositorio>/src/simulacion/api
 ```
 
-Activar el entorno:
-
-```bash
-source .venv/bin/activate
-```
-
-Ejecutar:
+Active el entorno virtual de Python correspondiente y ejecute:
 
 ```bash
 python3 ottava_api.py
 ```
 
-La Terminal mostrará la dirección IP para acceder a la aplicación desde otro dispositivo conectado a la misma red.
+Mantenga esta Terminal abierta durante toda la simulación.
 
-### Blender
+## 5. Abrir el simulador
 
-Abrir:
-
-```text
-<ruta_del_repositorio>/src/simulacion/OTTAVA_SIMULATOR.blend
-```
-
-Ejecutar desde Blender:
+Abra en Blender:
 
 ```text
-OTTAVA_MASTER_FINAL.py
+src/simulacion/OTTAVA_SIMULATOR.blend
 ```
 
----
+La escena contiene el robot OTTAVA, paciente, mesa quirúrgica, cámara y demás elementos utilizados durante la simulación.
 
-## 4. Admisión del paciente
+![Escena final de OTTAVA](docs/img/escena_final.png)
 
-Al iniciar OTTAVA aparece la ventana **Admisión del paciente**.
+Ejecute el controlador de OTTAVA para habilitar la comunicación entre Blender y la aplicación web.
 
-Ingresar:
+## 6. Registrar el paciente
 
-- nombre;
-- ID;
-- fecha de nacimiento;
-- sexo;
-- descripción del estudio;
-- fecha;
-- hora;
-- caso de estudio.
+Ingrese los datos ficticios solicitados en la ventana de admisión y seleccione uno de los casos disponibles.
 
-Utilizar exclusivamente pacientes ficticios.
+![Admisión del paciente](docs/img/admision_paciente.png)
 
-OTTAVA incluye cuatro casos radiográficos:
+Los datos utilizados durante las pruebas deben corresponder únicamente a simulaciones.
 
-```text
-Caso 1 · Demostración
-Caso 2 · Estudio A
-Caso 3 · Estudio B
-Caso 4 · Estudio C
-```
+## 7. Utilizar el control remoto
 
-Después seleccionar:
+Desde la aplicación web es posible controlar:
 
-```text
-INICIAR SIMULACIÓN
-```
+- PINZA 1.
+- PINZA 2.
+- CÁMARA.
+- SOPORTE.
+- Mesa quirúrgica.
+- Orientación de cámara.
+- Generación de RX.
 
----
+![Aplicación de control](docs/img/app_control.png)
 
-## 5. Aplicación móvil
+Utilice los controles para posicionar los elementos del robot dentro de la escena.
 
-Abrir desde el teléfono la dirección mostrada por la API.
+## 8. Generar la radiografía
 
-El teléfono y la computadora deben encontrarse conectados a la misma red.
+Posicione la cámara del brazo 03 sobre la región que desea utilizar para la simulación.
 
-La aplicación permite controlar:
-
-- **PINZA 1**
-- **PINZA 2**
-- **CÁMARA**
-- **SOPORTE**
-- **CAMILLA**
-
-También dispone de:
-
-- HOME;
-- STOP;
-- apertura y cierre de pinzas;
-- control de cámara;
-- Twin Motion;
-- generación de RX.
-
----
-
-## 6. Generar una radiografía
-
-Posicionar `Arm_03_Camera` sobre la región torácica.
-
-OTTAVA dispone de dos modos:
-
-### Autoencuadre desactivado
-
-La región observada por la cámara determina qué parte de la radiografía será adquirida.
-
-### Autoencuadre activado
-
-OTTAVA utiliza automáticamente la radiografía completa asociada al caso seleccionado.
-
-Para realizar la adquisición seleccionar:
+Seleccione:
 
 ```text
 GENERAR RX
 ```
 
-El sistema ejecuta automáticamente:
+OTTAVA realizará la adquisición radiográfica simulada y generará el estudio correspondiente.
 
-```text
-RX
- ↓
-DICOM
- ↓
-Orthanc
- ↓
-IA
- ↓
-Segmentación
- ↓
-Expediente
-```
+![Generación de RX](docs/img/generar_rx.png)
 
----
+## 9. Consultar el análisis de IA
 
-## 7. DICOM e inteligencia artificial
+Después de generar el estudio, OTTAVA procesa la imagen y presenta los resultados del análisis y la segmentación anatómica.
 
-La radiografía generada se convierte automáticamente a formato DICOM y se envía a Orthanc.
+![Análisis y segmentación mediante IA](docs/img/analisis_segmentacion_IA.png)
 
-Después OTTAVA ejecuta:
+Los resultados tienen fines exclusivamente educativos y pueden presentar imprecisiones.
 
-- análisis de patologías mediante **DenseNet121**;
-- segmentación anatómica mediante **PSPNet**.
+## 10. Consultar el expediente
 
-Los resultados tienen únicamente fines educativos.
+El expediente reúne la información relacionada con el estudio generado.
 
----
+![Expediente OTTAVA](docs/img/expediente.png)
 
-## 8. Expediente y OHIF
+Desde este módulo es posible:
 
-El expediente muestra:
+- Consultar la radiografía.
+- Revisar los resultados de IA.
+- Abrir el estudio en OHIF.
+- Registrar observaciones.
+- Guardar observaciones.
+- Generar el reporte PDF.
 
-- datos del paciente;
-- información del estudio;
-- radiografía;
-- segmentación;
-- resultados de IA;
-- observaciones profesionales.
+## 11. Visualizar el estudio en OHIF
 
-Para visualizar el estudio DICOM seleccionar:
+Seleccione la opción correspondiente para abrir el estudio DICOM en OHIF.
 
-```text
-ABRIR EN OHIF
-```
+![Visualización en OHIF](docs/img/ohif.png)
 
-Para registrar información profesional:
+El visor permite consultar las imágenes almacenadas previamente en Orthanc.
 
-```text
-GUARDAR OBSERVACIONES
-```
+## 12. Generar el reporte
 
-Después puede generarse el reporte mediante:
+Después de guardar las observaciones puede generarse el reporte correspondiente en PDF.
 
-```text
-DESCARGAR PDF
-```
+![Reporte PDF](docs/img/reporte_pdf.png)
 
----
+## 13. Nueva simulación
 
-## 9. Nueva simulación
-
-Para comenzar un estudio diferente seleccionar:
+Para comenzar un nuevo procedimiento seleccione:
 
 ```text
 NUEVA SIMULACIÓN
 ```
 
-OTTAVA limpia la sesión activa y vuelve a abrir Admisión.
+OTTAVA limpiará el estudio activo y regresará al proceso de admisión.
 
-Los estudios almacenados previamente en Orthanc no se eliminan.
+Los estudios previamente almacenados en Orthanc permanecen disponibles.
+
+## Finalizar OTTAVA
+
+Al terminar la simulación:
+
+1. Cierre Blender.
+2. Detenga la API utilizando `Ctrl + C`.
+3. Detenga OHIF:
+
+```bash
+cd <ruta_del_repositorio>/src/simulacion/api/visor/ohif
+./stop-ohif.command
+```
+
+4. Cierre Orthanc si ya no será utilizado.
 
 ---
 
-## 10. Problemas frecuentes
-
-### La aplicación móvil no abre
-
-Comprobar que:
-
-- la API esté activa;
-- teléfono y computadora estén en la misma red;
-- se esté utilizando la IP mostrada por OTTAVA.
-
-### Los brazos no responden
-
-Verificar que:
-
-```text
-OTTAVA_MASTER_FINAL.py
-```
-
-y:
-
-```text
-ottava_api.py
-```
-
-continúen ejecutándose.
-
-### GENERAR RX no funciona
-
-Verificar:
-
-- paciente admitido;
-- caso seleccionado;
-- simulación iniciada;
-- cámara posicionada sobre la región torácica.
-
-### El estudio no aparece en Orthanc
-
-Comprobar:
-
-```text
-http://localhost:8042
-```
-
-y verificar que Orthanc continúe activo.
-
-### OHIF no abre
-
-Comprobar que:
-
-- Docker esté activo;
-- OHIF esté iniciado;
-- Orthanc esté funcionando;
-- el estudio exista en Orthanc.
-
-### No puede descargarse el PDF
-
-Primero seleccionar:
-
-```text
-GUARDAR OBSERVACIONES
-```
-
-y posteriormente:
-
-```text
-DESCARGAR PDF
-```
-
----
-
-## Evidencias
-
-Las capturas finales de funcionamiento se incorporarán posteriormente en:
-
-```text
-docs/img/
-```
-
-La documentación técnica completa del proyecto se encuentra en:
-
-```text
-docs/documento_tecnico.md
-```
+**OTTAVA es un entorno académico de simulación. No debe utilizarse para diagnóstico, atención clínica ni toma de decisiones médicas.**
