@@ -1,5 +1,11 @@
 # Modelos 3D
 
-Coloque aquí archivos GLB/GLTF externos utilizados por la escena cuando sea necesario documentarlos por separado.
+Esta carpeta contiene los modelos 3D externos utilizados para complementar la escena de OTTAVA.
 
-La escena principal de OTTAVA se encuentra en `../OTTAVA_SIMULATOR.blend`.
+Los modelos principales de la simulación se encuentran integrados dentro de:
+
+`../OTTAVA_SIMULATOR.blend`
+
+Los archivos GLB/GLTF incluidos en esta carpeta corresponden a recursos utilizados durante la construcción de la escena final.
+
+Cada recurso externo conserva la licencia y condiciones de uso de su fuente original.

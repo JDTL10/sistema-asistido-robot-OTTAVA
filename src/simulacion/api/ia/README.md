@@ -1,5 +1,7 @@
 # Módulo de inteligencia artificial
 
-La lógica de clasificación y segmentación de la versión final se encuentra integrada en `../ottava_api.py`.
+La lógica de clasificación y segmentación de la versión final de OTTAVA se encuentra integrada en `../ottava_api.py`.
 
-Modelos utilizados en el proyecto: DenseNet121 y PSPNet mediante TorchXRayVision.
+El sistema utiliza DenseNet121 para el análisis de radiografías de tórax y PSPNet para la segmentación anatómica mediante TorchXRayVision.
+
+Los resultados tienen fines exclusivamente educativos y no constituyen diagnóstico médico.

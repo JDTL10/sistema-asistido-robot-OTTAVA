@@ -1,5 +1,5 @@
 # Módulo DICOM
 
-La lógica DICOM de la versión final se encuentra integrada actualmente en `../ottava_api.py` y el controlador OTTAVA.
+La generación, construcción de metadatos y envío de estudios DICOM de la versión final de OTTAVA se encuentran integrados en `../ottava_api.py`.
 
-Esta carpeta se conserva para cumplir y documentar la organización funcional solicitada para el repositorio.
+Esta carpeta documenta la organización funcional del módulo DICOM dentro del proyecto.

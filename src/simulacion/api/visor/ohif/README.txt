@@ -20,9 +20,9 @@ ARRANQUE
 3. Iniciar Docker Desktop.
 4. Terminal:
 
-   cd ~/Downloads/OTTAVA_OHIF_V2
-   chmod +x start-ohif.command stop-ohif.command
-   ./start-ohif.command
+   cd <ruta_del_repositorio>/src/simulacion/api/visor/ohif
+chmod +x start-ohif.command stop-ohif.command
+./start-ohif.command
 
 5. Abrir:
    http://localhost:3000
