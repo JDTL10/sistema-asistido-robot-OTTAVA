@@ -1,0 +1,1514 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>OTTAVA Control V4.7.2 FINAL</title>
+<style>
+:root{
+  --bg:#080b10;
+  --panel:#111720;
+  --panel2:#0d131b;
+  --line:#293444;
+  --line2:#1d2633;
+  --txt:#f4f7fb;
+  --muted:#8e9aac;
+  --blue:#67b8ff;
+  --blue2:#15314b;
+  --green:#62df96;
+  --amber:#f4bf62;
+  --danger:#ff6670;
+  --dangerbg:#35171d;
+}
+*{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100%;overscroll-behavior:none}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+button,.joy{touch-action:none}
+.wrap{max-width:1280px;margin:auto;padding:10px 12px 18px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand h1{font-size:18px;letter-spacing:.12em;margin:0;white-space:nowrap}
+.badge{font-size:11px;padding:6px 9px;border:1px solid var(--line);border-radius:999px;color:var(--muted);white-space:nowrap}
+.badge.good{border-color:rgba(98,223,150,.45);color:var(--green)}
+.global-actions{display:flex;gap:8px}
+button{appearance:none;border:1px solid var(--line);background:#18212d;color:var(--txt);font-weight:700;border-radius:10px;padding:10px 12px;font-size:12px;letter-spacing:.03em}
+button:active,.hold.active{transform:scale(.97);background:#223044}
+button.home{color:#d6e9ff}
+button.stop{border-color:rgba(255,102,112,.48);background:var(--dangerbg);color:#ffabb0}
+button.stop.active{border-color:rgba(98,223,150,.48);background:#173322;color:#9af0bb}
+button.new-sim{border-color:rgba(103,184,255,.42);background:#10263a;color:#b9ddff}
+.statusline{height:28px;border:1px solid var(--line2);background:#0c1118;border-radius:9px;margin-bottom:10px;display:flex;align-items:center;padding:0 10px;color:var(--muted);font-size:11px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.arm-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.arm-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:9px;min-width:0}
+.arm-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.arm-title{font-size:13px;font-weight:800;letter-spacing:.08em}
+.arm-home{padding:5px 7px;font-size:10px;border-radius:7px;color:var(--muted)}
+.joy{width:min(15.2vw,150px);height:min(15.2vw,150px);min-width:92px;min-height:92px;margin:3px auto 8px;border-radius:50%;border:1px solid #3a4658;background:radial-gradient(circle at center,#202a38 0,#121923 63%,#0c1118 100%);position:relative;box-shadow:inset 0 0 28px rgba(0,0,0,.34)}
+.joy:before,.joy:after{content:"";position:absolute;background:#334154;opacity:.62;pointer-events:none}
+.joy:before{width:1px;height:76%;left:50%;top:12%}.joy:after{height:1px;width:76%;left:12%;top:50%}
+.knob{width:39%;height:39%;position:absolute;left:30.5%;top:30.5%;border-radius:50%;background:linear-gradient(145deg,#33465d,#223044);border:1px solid #5d718d;box-shadow:0 7px 20px rgba(0,0,0,.45);pointer-events:none}
+.control-label{text-align:center;font-size:9px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.mini-row{display:grid;grid-template-columns:58px 1fr 32px 32px;align-items:center;gap:4px;margin-top:5px}
+.mini-row .name{font-size:9px;color:var(--muted);white-space:nowrap}
+.meter{height:5px;background:#080c12;border:1px solid var(--line2);border-radius:999px;overflow:hidden;position:relative}
+.meter span{position:absolute;left:50%;top:0;height:100%;width:2px;background:#5c7593}
+.smallbtn{padding:6px 0;font-size:11px;border-radius:7px;min-width:0}
+.jaw-row{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:7px}
+.jaw-row button{padding:7px 4px;font-size:9px}
+.no-jaw{height:30px;margin-top:7px;display:flex;align-items:center;justify-content:center;border:1px dashed #202a37;border-radius:7px;color:#657286;font-size:9px}
+.tablebar{display:grid;grid-template-columns:auto 1fr auto 1fr auto;gap:7px;align-items:center;margin-top:9px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:8px 10px}
+.table-title{font-size:11px;font-weight:800;letter-spacing:.08em;white-space:nowrap}.table-group{display:grid;grid-template-columns:1fr auto 1fr;gap:4px;align-items:center}.table-group .caption{grid-column:1/-1;text-align:center;color:var(--muted);font-size:8px;letter-spacing:.06em;text-transform:uppercase}.table-group button{padding:7px 9px}.twin{font-size:9px;color:var(--green);white-space:nowrap}
+.camera-panel{margin-top:10px;border:1px solid #30435b;background:linear-gradient(180deg,#101923,#0d131b);border-radius:16px;padding:10px}
+.camera-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.camera-title{font-size:13px;font-weight:850;letter-spacing:.08em}.live{font-size:10px;color:var(--green);letter-spacing:.08em}
+.camera-body{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(230px,.75fr);gap:10px;align-items:stretch}
+.feed-wrap{position:relative;background:#020304;border:1px solid #28374a;border-radius:12px;overflow:hidden;min-height:210px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}
+.feed-wrap img{width:100%;height:100%;object-fit:contain;display:block}.feed-placeholder{position:absolute;color:#5d6b7d;font-size:12px;letter-spacing:.05em;text-align:center;pointer-events:none}.feed-tag{position:absolute;left:9px;top:8px;background:rgba(5,9,14,.72);border:1px solid rgba(114,149,190,.36);border-radius:999px;padding:5px 8px;font-size:9px;letter-spacing:.08em}
+.camera-controls{background:#0b1118;border:1px solid var(--line2);border-radius:12px;padding:10px;display:flex;flex-direction:column;justify-content:center}.camera-controls .joy{width:min(18vw,150px);height:min(18vw,150px);margin-bottom:10px}.capture{width:100%;padding:12px;border-color:rgba(103,184,255,.55);background:var(--blue2);color:#a9d8ff;font-size:12px}.auto-frame{width:100%;margin-top:6px;padding:9px;background:#111821;color:#8190a4;border-color:#2b394b}.auto-frame.active{background:rgba(52,211,153,.13);border-color:rgba(52,211,153,.65);color:#7ef0be;box-shadow:inset 0 0 0 1px rgba(52,211,153,.10)}.camera-note{text-align:center;color:var(--muted);font-size:9px;margin-top:7px}
+.view-rx{display:none;width:100%;margin-top:6px;padding:9px;background:#111b27;color:#d7eaff;border-color:#31445a}.rx-modal{position:fixed;inset:0;z-index:1000;background:rgba(2,4,7,.92);display:none;align-items:center;justify-content:center;padding:18px}.rx-modal.open{display:flex}.rx-card{width:min(92vw,760px);max-height:94vh;background:#0d131b;border:1px solid #344861;border-radius:16px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.6)}.rx-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-bottom:1px solid var(--line);background:#111923}.rx-title{font-size:12px;font-weight:850;letter-spacing:.08em}.rx-meta{font-size:10px;color:var(--green);margin-left:auto}.rx-close{padding:6px 10px;font-size:14px}.rx-image-wrap{background:#000;display:flex;align-items:center;justify-content:center;max-height:calc(94vh - 54px)}.rx-image-wrap img{display:block;max-width:100%;max-height:calc(94vh - 54px);object-fit:contain}
+@media (max-width:860px){
+  .wrap{padding:8px}.brand h1{font-size:15px}.arm-grid{gap:5px}.arm-card{padding:7px}.joy{min-width:78px;min-height:78px}.mini-row{grid-template-columns:48px 1fr 28px 28px;gap:3px}.smallbtn{padding:5px 0}.camera-body{grid-template-columns:minmax(0,1.45fr) minmax(190px,.7fr)}.feed-wrap{min-height:175px}.tablebar{grid-template-columns:auto 1fr 1fr auto}.table-title{grid-column:1/-1}.twin{grid-column:4}.tablebar>.center-table{grid-column:1/-1}
+}
+
+.ai-panel{
+  margin-top:10px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:linear-gradient(180deg,#0d1722,#0a1119);
+  padding:12px;
+}
+.ai-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+.ai-title{
+  font-size:15px;
+  letter-spacing:.12em;
+  font-weight:700;
+}
+.ai-status{
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.ai-status.good{color:var(--green)}
+.ai-status.busy{color:#a9d8ff}
+.ai-status.bad{color:#ff9a9a}
+.ai-body{
+  display:grid;
+  grid-template-columns:minmax(0,1.5fr) minmax(210px,.7fr);
+  gap:10px;
+}
+.ai-results{
+  min-height:130px;
+  background:#081019;
+  border:1px solid var(--line2);
+  border-radius:12px;
+  padding:10px;
+}
+.ai-empty{
+  color:var(--muted);
+  font-size:11px;
+  height:100%;
+  min-height:100px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.ai-row{
+  display:grid;
+  grid-template-columns:minmax(120px,1fr) 55px minmax(80px,1.2fr);
+  align-items:center;
+  gap:8px;
+  margin:7px 0;
+}
+.ai-name{
+  font-size:11px;
+  color:#dbe9f7;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.ai-score{
+  font-size:11px;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+.ai-bar{
+  height:7px;
+  background:#111d28;
+  border-radius:999px;
+  overflow:hidden;
+  border:1px solid #1b2b39;
+}
+.ai-bar > span{
+  display:block;
+  height:100%;
+  width:0%;
+  background:#5daeea;
+  border-radius:999px;
+}
+.ai-info{
+  border:1px solid var(--line2);
+  border-radius:12px;
+  padding:10px;
+  background:#0a1118;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:10px;
+}
+.ai-model{
+  color:#cfe4f7;
+  font-size:11px;
+  line-height:1.5;
+}
+.ai-note{
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.45;
+}
+.ai-retry{
+  padding:9px;
+  width:100%;
+}
+.ai-dual{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:12px;
+}
+.seg-card{
+  border:1px solid var(--line2);
+  border-radius:12px;
+  background:#081019;
+  min-height:260px;
+  padding:10px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.seg-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+.seg-title{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.09em;
+}
+.seg-status{
+  font-size:9px;
+  color:var(--muted);
+  text-transform:uppercase;
+}
+.seg-status.good{color:var(--green)}
+.seg-status.busy{color:#a9d8ff}
+.seg-status.bad{color:#ff9a9a}
+.seg-image-wrap{
+  position:relative;
+  min-height:220px;
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  border-radius:9px;
+  background:#05090d;
+  border:1px solid #13202b;
+}
+.seg-image{
+  width:100%;
+  height:100%;
+  max-height:360px;
+  object-fit:contain;
+  display:none;
+}
+.seg-placeholder{
+  color:var(--muted);
+  font-size:11px;
+  text-align:center;
+  padding:20px;
+  line-height:1.5;
+}
+.seg-foot{
+  font-size:9px;
+  color:var(--muted);
+  line-height:1.4;
+}
+@media (orientation:portrait) and (max-width:700px){
+  .ai-body{grid-template-columns:1fr}
+  .ai-dual{grid-template-columns:1fr}
+}
+
+
+.record-open{
+  border-color:rgba(103,184,255,.5);
+  background:#10253a;
+  color:#b8ddff;
+}
+
+.record-modal{
+  position:fixed;
+  inset:0;
+  z-index:1200;
+  display:none;
+  background:#070a0f;
+  overflow:auto;
+  padding:
+    max(12px,env(safe-area-inset-top))
+    max(12px,env(safe-area-inset-right))
+    max(18px,env(safe-area-inset-bottom))
+    max(12px,env(safe-area-inset-left));
+}
+.record-modal.open{display:block}
+
+.record-shell{
+  max-width:1220px;
+  margin:0 auto;
+}
+
+.record-header{
+  position:sticky;
+  top:0;
+  z-index:3;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  background:rgba(10,15,22,.96);
+  border:1px solid var(--line);
+  border-radius:14px;
+  backdrop-filter:blur(12px);
+}
+
+.record-heading{
+  min-width:0;
+}
+.record-title{
+  font-size:17px;
+  font-weight:850;
+  letter-spacing:.1em;
+}
+.record-subtitle{
+  margin-top:3px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.record-close{
+  padding:8px 12px;
+}
+
+.record-empty{
+  margin-top:12px;
+  border:1px dashed #304052;
+  border-radius:14px;
+  padding:26px;
+  color:var(--muted);
+  text-align:center;
+  background:#0b1118;
+}
+
+.record-content{
+  display:none;
+  margin-top:12px;
+}
+
+.record-meta-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.record-card{
+  border:1px solid var(--line);
+  background:#0e151e;
+  border-radius:14px;
+  padding:12px;
+}
+
+.record-card-title{
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.09em;
+  margin-bottom:10px;
+  color:#dcecff;
+}
+
+.record-fields{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px 16px;
+}
+
+.record-field{
+  min-width:0;
+}
+.record-field .label{
+  color:var(--muted);
+  font-size:8px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:3px;
+}
+.record-field .value{
+  font-size:11px;
+  color:#edf5fc;
+  word-break:break-word;
+}
+
+.record-uid{
+  grid-column:1/-1;
+}
+
+.record-images{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:10px;
+}
+
+.record-image-card{
+  border:1px solid var(--line);
+  background:#090e14;
+  border-radius:14px;
+  padding:10px;
+}
+
+.record-image-head{
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+  margin-bottom:8px;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.record-image-wrap{
+  min-height:280px;
+  height:min(44vw,430px);
+  border-radius:10px;
+  overflow:hidden;
+  background:#020304;
+  border:1px solid #1c2835;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.record-image-wrap img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:none;
+}
+
+.record-image-placeholder{
+  color:#657286;
+  font-size:10px;
+  text-align:center;
+  padding:18px;
+}
+
+.record-lower{
+  display:grid;
+  grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  gap:10px;
+  margin-top:10px;
+}
+
+.record-ai-list{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.record-ai-row{
+  display:grid;
+  grid-template-columns:1fr 60px;
+  gap:8px;
+  align-items:center;
+  border-bottom:1px solid #17212c;
+  padding-bottom:6px;
+}
+.record-ai-row:last-child{
+  border-bottom:0;
+  padding-bottom:0;
+}
+.record-ai-name{
+  font-size:10px;
+}
+.record-ai-score{
+  text-align:right;
+  font-size:10px;
+  color:#a9d8ff;
+  font-variant-numeric:tabular-nums;
+}
+
+.record-note{
+  margin-top:10px;
+  font-size:8px;
+  color:var(--muted);
+  line-height:1.45;
+}
+
+.record-form{
+  display:grid;
+  grid-template-columns:1fr 180px;
+  gap:8px;
+}
+.record-form label{
+  display:block;
+  font-size:8px;
+  color:var(--muted);
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+
+.record-form input,
+.record-form select,
+.record-form textarea{
+  width:100%;
+  border:1px solid #2a394a;
+  background:#080d13;
+  color:#edf5fc;
+  border-radius:9px;
+  padding:9px;
+  font:inherit;
+  font-size:11px;
+  outline:none;
+  -webkit-user-select:text;
+  user-select:text;
+}
+.record-form textarea{
+  grid-column:1/-1;
+  min-height:140px;
+  resize:vertical;
+  line-height:1.45;
+}
+.record-form .obs-field{
+  grid-column:1/-1;
+}
+
+.record-saved{
+  margin-top:7px;
+  min-height:16px;
+  font-size:9px;
+  color:var(--muted);
+}
+.record-saved.good{color:var(--green)}
+.record-saved.bad{color:#ff9a9a}
+
+.record-actions{
+  position:sticky;
+  bottom:0;
+  z-index:3;
+  margin-top:10px;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  padding:10px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(10,15,22,.96);
+  backdrop-filter:blur(12px);
+}
+
+.record-actions button{
+  min-height:44px;
+}
+
+.record-ohif{
+  background:#15314b;
+  border-color:rgba(103,184,255,.55);
+  color:#b8ddff;
+}
+.record-save{
+  background:#172a21;
+  border-color:rgba(98,223,150,.4);
+  color:#a9f0c1;
+}
+.record-pdf{
+  background:#25202f;
+  border-color:#483b5c;
+  color:#e0d3f4;
+}
+.record-actions button:disabled{
+  opacity:.42;
+  cursor:not-allowed;
+}
+
+@media (max-width:760px){
+  .record-meta-grid,
+  .record-images,
+  .record-lower{
+    grid-template-columns:1fr;
+  }
+  .record-form{
+    grid-template-columns:1fr;
+  }
+  .record-actions{
+    grid-template-columns:1fr;
+  }
+}
+
+@media (orientation:portrait) and (max-width:700px){
+  .arm-grid{grid-template-columns:1fr 1fr}.joy{width:34vw;height:34vw;max-width:145px;max-height:145px}.camera-body{grid-template-columns:1fr}.camera-controls .joy{width:36vw;height:36vw}.tablebar{grid-template-columns:1fr}.table-title,.twin,.tablebar>.center-table{grid-column:auto}.table-group{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">
+      <h1>OTTAVA CONTROL</h1>
+      <div id="status" class="badge">Conectando…</div>
+      <div id="pacsStatus" class="badge">PACS · verificando…</div>
+    </div>
+    <div class="global-actions">
+      <button id="newSimulation" class="new-sim">NUEVA SIMULACIÓN</button>
+      <button id="openRecord" class="record-open">EXPEDIENTE</button>
+      <button id="homeAll" class="home">HOME GENERAL</button>
+      <button id="stop" class="stop">STOP</button>
+    </div>
+  </div>
+
+  <div id="message" class="statusline">Inicializando sistema…</div>
+
+  <div class="arm-grid">
+    <div class="arm-card" data-arm="arm1">
+      <div class="arm-head"><div class="arm-title">PINZA 1</div><button class="arm-home" data-home="arm1">HOME</button></div>
+      <div class="control-label">Movimiento del brazo</div>
+      <div id="joy1" class="joy"><div class="knob"></div></div>
+      <div class="mini-row"><div class="name">Profund.</div><div class="meter"><span></span></div><button class="smallbtn hold" data-key="arm1.depth" data-value="-1">−</button><button class="smallbtn hold" data-key="arm1.depth" data-value="1">+</button></div>
+      <div class="mini-row"><div class="name">Herram.</div><div class="meter"><span></span></div><button class="smallbtn hold" data-key="arm1.tool" data-value="-1">↺</button><button class="smallbtn hold" data-key="arm1.tool" data-value="1">↻</button></div>
+      <div class="jaw-row"><button data-jaw="arm1:OPEN">ABRIR</button><button data-jaw="arm1:CLOSE">CERRAR</button></div>
+    </div>
+
+    <div class="arm-card" data-arm="arm2">
+      <div class="arm-head"><div class="arm-title">PINZA 2</div><button class="arm-home" data-home="arm2">HOME</button></div>
+      <div class="control-label">Movimiento del brazo</div>
+      <div id="joy2" class="joy"><div class="knob"></div></div>
+      <div class="mini-row"><div class="name">Profund.</div><div class="meter"><span></span></div><button class="smallbtn hold" data-key="arm2.depth" data-value="-1">−</button><button class="smallbtn hold" data-key="arm2.depth" data-value="1">+</button></div>
+      <div class="mini-row"><div class="name">Herram.</div><div class="meter"><span></span></div><button class="smallbtn hold" data-key="arm2.tool" data-value="-1">↺</button><button class="smallbtn hold" data-key="arm2.tool" data-value="1">↻</button></div>
+      <div class="jaw-row"><button data-jaw="arm2:OPEN">ABRIR</button><button data-jaw="arm2:CLOSE">CERRAR</button></div>
+    </div>
+
+    <div class="arm-card" data-arm="arm3">
+      <div class="arm-head"><div class="arm-title">CÁMARA</div><button class="arm-home" data-home="arm3">HOME</button></div>
+      <div class="control-label">Movimiento del brazo</div>
+      <div id="joy3" class="joy"><div class="knob"></div></div>
+      <div class="mini-row"><div class="name">Profund.</div><div class="meter"><span></span></div><button class="smallbtn hold" data-key="arm3.depth" data-value="-1">−</button><button class="smallbtn hold" data-key="arm3.depth" data-value="1">+</button></div>
+      <div class="mini-row"><div class="name">Herram.</div><div class="meter"><span></span></div><button class="smallbtn hold" data-key="arm3.tool" data-value="-1">↺</button><button class="smallbtn hold" data-key="arm3.tool" data-value="1">↻</button></div>
+      <div class="no-jaw">CONTROL DE CÁMARA EN MÓDULO INFERIOR</div>
+    </div>
+
+    <div class="arm-card" data-arm="arm4">
+      <div class="arm-head"><div class="arm-title">SOPORTE</div><button class="arm-home" data-home="arm4">HOME</button></div>
+      <div class="control-label">Movimiento del brazo</div>
+      <div id="joy4" class="joy"><div class="knob"></div></div>
+      <div class="mini-row"><div class="name">Profund.</div><div class="meter"><span></span></div><button class="smallbtn hold" data-key="arm4.depth" data-value="-1">−</button><button class="smallbtn hold" data-key="arm4.depth" data-value="1">+</button></div>
+      <div class="mini-row"><div class="name">Herram.</div><div class="meter"><span></span></div><button class="smallbtn hold" data-key="arm4.tool" data-value="-1">↺</button><button class="smallbtn hold" data-key="arm4.tool" data-value="1">↻</button></div>
+      <div class="no-jaw">CONTROL DE SOPORTE</div>
+    </div>
+  </div>
+
+  <div class="tablebar">
+    <div class="table-title">CAMILLA</div>
+    <div class="table-group">
+      <div class="caption">Desplazamiento</div>
+      <button class="hold" data-key="table.slide" data-value="-1">◀</button><span></span><button class="hold" data-key="table.slide" data-value="1">▶</button>
+    </div>
+    <div class="table-group">
+      <div class="caption">Inclinación Twin Motion</div>
+      <button class="hold" data-key="table.tilt" data-value="-1">TREND.</button><span></span><button class="hold" data-key="table.tilt" data-value="1">INVERSA</button>
+    </div>
+    <button id="tableCenter" class="center-table">CENTRAR CAMILLA</button>
+    <div class="twin">● TWIN MOTION ACTIVO</div>
+  </div>
+
+  <div class="camera-panel">
+    <div class="camera-head"><div class="camera-title">CONTROL DE CÁMARA</div><div class="live">● LIVE · CÁMARA</div></div>
+    <div class="camera-body">
+      <div class="feed-wrap">
+        <img id="cameraFeed" alt="Vista de cámara OTTAVA">
+        <div id="feedPlaceholder" class="feed-placeholder">Esperando imagen de Arm_03_Camera…</div>
+        <div class="feed-tag">CÁMARA</div>
+      </div>
+      <div class="camera-controls">
+        <div class="control-label">Orientación fina de cámara</div>
+        <div id="cameraJoy" class="joy"><div class="knob"></div></div>
+        <button id="capture" class="capture">GENERAR RX</button>
+        <button id="autoFrame" class="auto-frame" aria-pressed="false">AUTOENCUADRE</button>
+        <button id="viewRx" class="view-rx">VER ÚLTIMA RX</button>
+        <div id="captureModeNote" class="camera-note">Encuadre de cámara: la RX se genera sólo con la región observada.</div>
+        <div class="camera-note">El joystick del módulo Cámara mueve el brazo. Este control orienta únicamente la cámara.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ai-panel">
+    <div class="ai-head">
+      <div class="ai-title">ANÁLISIS IA</div>
+      <div id="aiStatus" class="ai-status">ESPERANDO ESTUDIO</div>
+    </div>
+
+    <div class="ai-dual">
+      <div class="ai-body">
+        <div id="aiResults" class="ai-results">
+          <div class="ai-empty">
+            Adquiere una RX y almacénala en Orthanc para iniciar el análisis.
+          </div>
+        </div>
+
+        <div class="ai-info">
+          <div>
+            <div class="control-label">Modelo</div>
+            <div id="aiModel" class="ai-model">
+              Análisis de IA
+            </div>
+          </div>
+
+          <div class="ai-note">
+            Resultados generados por IA con fines educativos; pueden presentar imprecisiones y no sustituyen la valoración profesional.
+          </div>
+
+          <button id="aiRetry" class="ai-retry">
+            ANALIZAR NUEVAMENTE
+          </button>
+        </div>
+      </div>
+
+      <div class="seg-card">
+        <div class="seg-head">
+          <div class="seg-title">SEGMENTACIÓN ANATÓMICA</div>
+          <div id="segStatus" class="seg-status">
+            ESPERANDO ESTUDIO
+          </div>
+        </div>
+
+        <div class="seg-image-wrap">
+          <img
+            id="segImage"
+            class="seg-image"
+            alt="Segmentación anatómica de la radiografía"
+          >
+          <div id="segPlaceholder" class="seg-placeholder">
+            La segmentación aparecerá aquí después del análisis.
+          </div>
+        </div>
+
+        <div class="seg-foot">
+          Segmentación generada por IA; puede presentar imprecisiones y no constituye diagnóstico clínico.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="recordModal" class="record-modal">
+  <div class="record-shell">
+    <div class="record-header">
+      <div class="record-heading">
+        <div class="record-title">EXPEDIENTE OTTAVA</div>
+        <div id="recordHeaderSub" class="record-subtitle">
+          Expediente, imagenología y resultados de IA
+        </div>
+      </div>
+      <button id="recordClose" class="record-close">CERRAR</button>
+    </div>
+
+    <div id="recordEmpty" class="record-empty">
+      No hay un estudio activo. Captura una RX y espera a que el estudio sea almacenado en Orthanc.
+    </div>
+
+    <div id="recordContent" class="record-content">
+      <div class="record-meta-grid">
+        <div class="record-card">
+          <div class="record-card-title">DATOS DEL PACIENTE</div>
+          <div class="record-fields">
+            <div class="record-field">
+              <div class="label">Nombre</div>
+              <div id="recPatientName" class="value">-</div>
+            </div>
+            <div class="record-field">
+              <div class="label">ID</div>
+              <div id="recPatientId" class="value">-</div>
+            </div>
+            <div class="record-field">
+              <div class="label">Fecha de nacimiento</div>
+              <div id="recBirthDate" class="value">-</div>
+            </div>
+            <div class="record-field">
+              <div class="label">Edad</div>
+              <div id="recAge" class="value">-</div>
+            </div>
+            <div class="record-field">
+              <div class="label">Sexo</div>
+              <div id="recSex" class="value">-</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="record-card">
+          <div class="record-card-title">DATOS DEL ESTUDIO</div>
+          <div class="record-fields">
+            <div class="record-field">
+              <div class="label">Descripción</div>
+              <div id="recStudyDescription" class="value">-</div>
+            </div>
+            <div class="record-field">
+              <div class="label">Modalidad</div>
+              <div id="recModality" class="value">-</div>
+            </div>
+            <div class="record-field">
+              <div class="label">Fecha</div>
+              <div id="recStudyDate" class="value">-</div>
+            </div>
+            <div class="record-field">
+              <div class="label">Hora</div>
+              <div id="recStudyTime" class="value">-</div>
+            </div>
+            <div class="record-field">
+              <div class="label">Accession Number</div>
+              <div id="recAccession" class="value">-</div>
+            </div>
+            <div class="record-field">
+              <div class="label">Study ID</div>
+              <div id="recStudyId" class="value">-</div>
+            </div>
+            <div class="record-field record-uid">
+              <div class="label">StudyInstanceUID</div>
+              <div id="recStudyUid" class="value">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="record-images">
+        <div class="record-image-card">
+          <div class="record-image-head">
+            <span>RX ORIGINAL</span>
+            <span id="recOriginalStatus" class="seg-status">ESPERANDO</span>
+          </div>
+          <div class="record-image-wrap">
+            <img id="recOriginalImage" alt="RX original">
+            <div id="recOriginalPlaceholder" class="record-image-placeholder">
+              RX original no disponible.
+            </div>
+          </div>
+        </div>
+
+        <div class="record-image-card">
+          <div class="record-image-head">
+            <span>SEGMENTACIÓN ANATÓMICA</span>
+            <span id="recSegStatus" class="seg-status">ESPERANDO</span>
+          </div>
+          <div class="record-image-wrap">
+            <img id="recSegImage" alt="Segmentación anatómica">
+            <div id="recSegPlaceholder" class="record-image-placeholder">
+              Esperando segmentación anatómica.
+            </div>
+          </div>
+          <div class="record-note">
+            Segmentación generada por IA; puede presentar imprecisiones y no constituye diagnóstico clínico.
+          </div>
+        </div>
+      </div>
+
+      <div class="record-lower">
+        <div class="record-card">
+          <div class="record-card-title">ANÁLISIS IA</div>
+          <div id="recAiResults" class="record-ai-list">
+            <div class="ai-empty">Esperando resultados de DenseNet-121.</div>
+          </div>
+          <div class="record-note">
+            Resultados generados por IA con fines educativos; pueden presentar imprecisiones y no sustituyen la valoración profesional.
+          </div>
+        </div>
+
+        <div class="record-card">
+          <div class="record-card-title">OBSERVACIONES DEL PROFESIONAL</div>
+
+          <div class="record-form">
+            <div>
+              <label for="recProfessionalName">Profesional</label>
+              <input id="recProfessionalName" type="text" placeholder="Nombre del profesional">
+            </div>
+
+            <div>
+              <label for="recProfessionalRole">Rol</label>
+              <select id="recProfessionalRole">
+                <option>Radiólogo</option>
+                <option>Médico tratante</option>
+                <option>Investigador</option>
+                <option>Otro</option>
+              </select>
+            </div>
+
+            <div class="obs-field">
+              <label for="recObservations">Observaciones / comentarios</label>
+              <textarea
+                id="recObservations"
+                placeholder="Escriba observaciones, comentarios o interpretación del estudio..."
+              ></textarea>
+            </div>
+          </div>
+
+          <div id="recordSavedStatus" class="record-saved">
+            Sin observaciones guardadas.
+          </div>
+        </div>
+      </div>
+
+      <div class="record-actions">
+        <button id="recordOpenOhif" class="record-ohif">
+          ABRIR EN OHIF
+        </button>
+        <button id="recordSave" class="record-save">
+          GUARDAR OBSERVACIONES
+        </button>
+        <button id="recordPdf" class="record-pdf">
+          DESCARGAR PDF
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="rxModal" class="rx-modal">
+  <div class="rx-card">
+    <div class="rx-head">
+      <div class="rx-title">OTTAVA · RX ADQUIRIDA</div>
+      <div id="rxMeta" class="rx-meta"></div>
+      <button id="rxClose" class="rx-close">✕</button>
+    </div>
+    <div class="rx-image-wrap">
+      <img id="rxImage" alt="Radiografía adquirida por OTTAVA">
+    </div>
+  </div>
+</div>
+
+<script>
+const control={
+  arm1:{x:0,y:0,depth:0,tool:0},
+  arm2:{x:0,y:0,depth:0,tool:0},
+  arm3:{x:0,y:0,depth:0,tool:0},
+  arm4:{x:0,y:0,depth:0,tool:0},
+  camera:{x:0,y:0},
+  table:{slide:0,tilt:0}
+};
+let emergency=false;
+let feedVersion=-1;
+let rxVersion=-1;
+let rxAvailable=false;
+let controlBusy=false;
+
+let recordState=null;
+let recordObservationLoadedFor='';
+let recordDirty=false;
+let recordOriginalVersion=-1;
+let recordSegVersion=-1;
+
+function setPath(path,value){
+  const [group,key]=path.split('.');
+  control[group][key]=Number(value);
+}
+
+function joystick(el,target){
+  const knob=el.querySelector('.knob');
+  let active=false;
+  function update(e){
+    if(!active)return;
+    const r=el.getBoundingClientRect();
+    const cx=r.left+r.width/2, cy=r.top+r.height/2, max=r.width*.33;
+    let dx=e.clientX-cx, dy=e.clientY-cy, d=Math.hypot(dx,dy);
+    if(d>max){dx=dx/d*max;dy=dy/d*max}
+    knob.style.transform=`translate(${dx}px,${dy}px)`;
+    target.x=dx/max;
+    target.y=dy/max;
+  }
+  function end(){
+    active=false;
+    knob.style.transform='translate(0,0)';
+    target.x=0; target.y=0;
+  }
+  el.addEventListener('pointerdown',e=>{active=true;el.setPointerCapture(e.pointerId);update(e)});
+  el.addEventListener('pointermove',update);
+  el.addEventListener('pointerup',end);
+  el.addEventListener('pointercancel',end);
+  el.addEventListener('lostpointercapture',end);
+}
+
+joystick(document.getElementById('joy1'),control.arm1);
+joystick(document.getElementById('joy2'),control.arm2);
+joystick(document.getElementById('joy3'),control.arm3);
+joystick(document.getElementById('joy4'),control.arm4);
+joystick(document.getElementById('cameraJoy'),control.camera);
+
+for(const b of document.querySelectorAll('.hold')){
+  const path=b.dataset.key, value=Number(b.dataset.value);
+  const start=e=>{e.preventDefault();b.classList.add('active');setPath(path,value);try{b.setPointerCapture(e.pointerId)}catch(_){}};
+  const end=()=>{b.classList.remove('active');setPath(path,0)};
+  b.addEventListener('pointerdown',start);
+  b.addEventListener('pointerup',end);
+  b.addEventListener('pointercancel',end);
+  b.addEventListener('lostpointercapture',end);
+}
+
+async function post(url,body){
+  try{
+    const opt={method:'POST'};
+    if(body!==undefined){opt.headers={'Content-Type':'application/json'};opt.body=JSON.stringify(body)}
+    return await fetch(url,opt);
+  }catch(e){return null}
+}
+
+setInterval(async()=>{
+  if(controlBusy)return;
+  controlBusy=true;
+  await post('/api/control',control);
+  controlBusy=false;
+},25);
+
+for(const b of document.querySelectorAll('[data-home]')){
+  b.onclick=()=>post('/api/action/arm-home/'+b.dataset.home);
+}
+for(const b of document.querySelectorAll('[data-jaw]')){
+  b.onclick=()=>{
+    const [arm,action]=b.dataset.jaw.split(':');
+    post(`/api/action/jaw/${arm}/${action}`);
+  };
+}
+
+document.getElementById('homeAll').onclick=()=>post('/api/action/home-all');
+document.getElementById('tableCenter').onclick=()=>post('/api/action/table-center');
+
+document.getElementById('newSimulation').onclick=async()=>{
+  const ok=window.confirm(
+    '¿Iniciar una nueva simulación?\n\nSe limpiará la sesión activa, pero los estudios guardados en Orthanc se conservarán.'
+  );
+  if(!ok)return;
+
+  const b=document.getElementById('newSimulation');
+  b.textContent='REINICIANDO…';
+  b.disabled=true;
+
+  const response=await post('/api/action/new-simulation');
+  if(!response || !response.ok){
+    b.textContent='ERROR';
+    setTimeout(()=>{b.textContent='NUEVA SIMULACIÓN';b.disabled=false},1400);
+    return;
+  }
+
+  autoFrameEnabled=false;
+  refreshAutoFrame();
+  rxVersion=-1;
+  rxAvailable=false;
+  document.getElementById('viewRx').style.display='none';
+  document.getElementById('rxImage').removeAttribute('src');
+  document.getElementById('rxMeta').textContent='';
+  hideRx();
+  closeRecordModal();
+  recordState=null;
+  recordObservationLoadedFor='';
+  recordDirty=false;
+  recordOriginalVersion=-1;
+  recordSegVersion=-1;
+
+  b.textContent='ADMISIÓN EN BLENDER';
+  setTimeout(()=>{b.textContent='NUEVA SIMULACIÓN';b.disabled=false},2200);
+};
+
+let autoFrameEnabled=false;
+const autoFrameButton=document.getElementById('autoFrame');
+const captureModeNote=document.getElementById('captureModeNote');
+
+function refreshAutoFrame(){
+  autoFrameButton.classList.toggle('active',autoFrameEnabled);
+  autoFrameButton.setAttribute('aria-pressed',autoFrameEnabled?'true':'false');
+  captureModeNote.textContent=autoFrameEnabled
+    ?'Autoencuadre: al detectar el tórax se genera la radiografía completa.'
+    :'Encuadre de cámara: la RX se genera sólo con la región observada.';
+}
+
+autoFrameButton.onclick=()=>{
+  autoFrameEnabled=!autoFrameEnabled;
+  refreshAutoFrame();
+};
+refreshAutoFrame();
+
+document.getElementById('capture').onclick=async()=>{
+  const b=document.getElementById('capture');
+
+  b.textContent=autoFrameEnabled?'AUTOENCUADRANDO…':'GENERANDO RX…';
+
+  const response=await post(
+    `/api/action/capture?auto_frame=${autoFrameEnabled?'true':'false'}`
+  );
+
+  if(!response || !response.ok){
+    b.textContent='ERROR DE SOLICITUD';
+
+    setTimeout(
+      ()=>b.textContent='GENERAR RX',
+      1800
+    );
+
+    return;
+  }
+
+  b.textContent=autoFrameEnabled?'RX AUTO SOLICITADA':'RX SOLICITADA';
+
+  setTimeout(
+    ()=>{
+      if(
+        b.textContent==='RX SOLICITADA' || b.textContent==='RX AUTO SOLICITADA'
+      ){
+        b.textContent='GENERAR RX';
+      }
+    },
+    3000
+  );
+};
+document.getElementById('stop').onclick=async()=>{
+  emergency=!emergency;
+  await post(emergency?'/api/action/stop':'/api/action/resume');
+};
+
+function showRx(){
+  if(!rxAvailable)return;
+  document.getElementById('rxModal').classList.add('open');
+}
+function hideRx(){
+  document.getElementById('rxModal').classList.remove('open');
+}
+document.getElementById('viewRx').onclick=showRx;
+document.getElementById('rxClose').onclick=hideRx;
+document.getElementById('rxModal').addEventListener('pointerdown',e=>{
+  if(e.target.id==='rxModal')hideRx();
+});
+
+
+
+function setText(id,value){
+  const el=document.getElementById(id);
+  if(el)el.textContent=(value===undefined||value===null||value==='')?'-':String(value);
+}
+
+function setRecordDirty(value){
+  recordDirty=!!value;
+  const pdf=document.getElementById('recordPdf');
+
+  if(pdf){
+    pdf.disabled=recordDirty;
+    pdf.title=recordDirty?'Guarda las observaciones antes de generar el PDF':'';
+  }
+
+  const status=document.getElementById('recordSavedStatus');
+  if(recordDirty && status){
+    status.textContent='Cambios sin guardar.';
+    status.className='record-saved';
+  }
+}
+
+function openRecordModal(){
+  document.getElementById('recordModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeRecordModal(){
+  document.getElementById('recordModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+document.getElementById('openRecord').onclick=openRecordModal;
+document.getElementById('recordClose').onclick=closeRecordModal;
+
+for(const id of ['recProfessionalName','recProfessionalRole','recObservations']){
+  document.getElementById(id).addEventListener('input',()=>setRecordDirty(true));
+  document.getElementById(id).addEventListener('change',()=>setRecordDirty(true));
+}
+
+document.getElementById('recordOpenOhif').onclick=()=>{
+  if(!recordState || !recordState.ohif_url)return;
+  window.open(recordState.ohif_url,'_blank');
+};
+
+document.getElementById('recordSave').onclick=async()=>{
+  if(!recordState || !recordState.current_exam || !recordState.current_exam.study_instance_uid)return;
+
+  const button=document.getElementById('recordSave');
+  const status=document.getElementById('recordSavedStatus');
+
+  button.textContent='GUARDANDO…';
+
+  const payload={
+    professional_name:document.getElementById('recProfessionalName').value,
+    professional_role:document.getElementById('recProfessionalRole').value,
+    observations:document.getElementById('recObservations').value
+  };
+
+  const response=await post('/api/record/observations',payload);
+
+  try{
+    const data=response?await response.json():null;
+
+    if(data && data.ok){
+      setRecordDirty(false);
+      status.textContent='Observaciones guardadas · '+(data.saved_at||'');
+      status.className='record-saved good';
+
+      if(recordState){
+        recordState.record_observation={
+          ...payload,
+          saved_at:data.saved_at||''
+        };
+      }
+    }else{
+      status.textContent=(data&&data.error)?data.error:'No fue posible guardar.';
+      status.className='record-saved bad';
+    }
+  }catch(_){
+    status.textContent='No fue posible guardar.';
+    status.className='record-saved bad';
+  }
+
+  button.textContent='GUARDAR OBSERVACIONES';
+};
+
+document.getElementById('recordPdf').onclick=()=>{
+  if(recordDirty){
+    const status=document.getElementById('recordSavedStatus');
+    status.textContent='Guarda las observaciones antes de generar el PDF.';
+    status.className='record-saved bad';
+    return;
+  }
+
+  window.open('/api/record/report.pdf?t='+Date.now(),'_blank');
+};
+
+function renderRecord(s){
+  recordState=s;
+
+  const exam=s.current_exam||{};
+  const hasExam=!!exam.study_instance_uid;
+
+  document.getElementById('recordEmpty').style.display=hasExam?'none':'block';
+  document.getElementById('recordContent').style.display=hasExam?'block':'none';
+
+  if(!hasExam)return;
+
+  setText('recPatientName',exam.patient_name);
+  setText('recPatientId',exam.patient_id);
+  setText('recBirthDate',exam.patient_birth_date_display);
+  setText(
+    'recAge',
+    exam.patient_age===null||exam.patient_age===undefined
+      ? '-'
+      : exam.patient_age+' años'
+  );
+  setText('recSex',exam.patient_sex);
+
+  setText('recStudyDescription',exam.study_description);
+  setText('recModality',exam.modality);
+  setText('recStudyDate',exam.study_date_display);
+  setText('recStudyTime',exam.study_time_display);
+  setText('recAccession',exam.accession_number);
+  setText('recStudyId',exam.study_id);
+  setText('recStudyUid',exam.study_instance_uid);
+
+  document.getElementById('recordHeaderSub').textContent=
+    (exam.patient_name||'Paciente')+' · '+(exam.study_description||'Estudio');
+
+  const ohif=document.getElementById('recordOpenOhif');
+  ohif.disabled=!s.ohif_url;
+
+  const originalVersion=Number(s.record_original_version||0);
+  const originalImg=document.getElementById('recOriginalImage');
+  const originalPlaceholder=document.getElementById('recOriginalPlaceholder');
+  const originalStatus=document.getElementById('recOriginalStatus');
+
+  if(originalVersion>0){
+    if(originalVersion!==recordOriginalVersion){
+      recordOriginalVersion=originalVersion;
+      originalImg.src='/api/record/original?v='+originalVersion;
+    }
+    originalImg.style.display='block';
+    originalPlaceholder.style.display='none';
+    originalStatus.textContent='● DISPONIBLE';
+    originalStatus.className='seg-status good';
+  }else{
+    originalImg.style.display='none';
+    originalPlaceholder.style.display='block';
+    originalStatus.textContent='ESPERANDO';
+    originalStatus.className='seg-status';
+  }
+
+  const segVersion=Number(s.segmentation_version||0);
+  const segImg=document.getElementById('recSegImage');
+  const segPlaceholder=document.getElementById('recSegPlaceholder');
+  const segStatus=document.getElementById('recSegStatus');
+
+  if(s.segmentation_status==='completed' && segVersion>0){
+    if(segVersion!==recordSegVersion){
+      recordSegVersion=segVersion;
+      segImg.src='/api/ai/segmentation?v='+segVersion;
+    }
+    segImg.style.display='block';
+    segPlaceholder.style.display='none';
+    segStatus.textContent='● COMPLETADA';
+    segStatus.className='seg-status good';
+  }else if(['queued','loading','analyzing'].includes(s.segmentation_status)){
+    segImg.style.display='none';
+    segPlaceholder.style.display='block';
+    segPlaceholder.textContent=s.segmentation_message||'Procesando segmentación…';
+    segStatus.textContent='● PROCESANDO';
+    segStatus.className='seg-status busy';
+  }else if(s.segmentation_status==='error'){
+    segImg.style.display='none';
+    segPlaceholder.style.display='block';
+    segPlaceholder.textContent=s.segmentation_error||'Error de segmentación.';
+    segStatus.textContent='● ERROR';
+    segStatus.className='seg-status bad';
+  }
+
+  const aiContainer=document.getElementById('recAiResults');
+  const aiItems=(s.ai_results||[]).slice(0,5);
+
+  if(aiItems.length){
+    aiContainer.innerHTML=aiItems.map(item=>`
+      <div class="record-ai-row">
+        <div class="record-ai-name">${item.pathology}</div>
+        <div class="record-ai-score">${Number(item.score||0).toFixed(4)}</div>
+      </div>
+    `).join('');
+  }else{
+    aiContainer.innerHTML='<div class="ai-empty">Esperando resultados de DenseNet-121.</div>';
+  }
+
+  if(recordObservationLoadedFor!==exam.study_instance_uid){
+    recordObservationLoadedFor=exam.study_instance_uid;
+
+    const obs=s.record_observation||{};
+
+    document.getElementById('recProfessionalName').value=obs.professional_name||'';
+    document.getElementById('recProfessionalRole').value=obs.professional_role||'Radiólogo';
+    document.getElementById('recObservations').value=obs.observations||'';
+
+    const saved=document.getElementById('recordSavedStatus');
+
+    if(obs.saved_at){
+      saved.textContent='Observaciones guardadas · '+obs.saved_at;
+      saved.className='record-saved good';
+    }else{
+      saved.textContent='Sin observaciones guardadas.';
+      saved.className='record-saved';
+    }
+
+    setRecordDirty(false);
+  }
+}
+
+function renderAi(s){
+  const status=document.getElementById('aiStatus');
+  const resultsEl=document.getElementById('aiResults');
+  const modelEl=document.getElementById('aiModel');
+
+  const mode=s.ai_status||'idle';
+  const message=s.ai_message||'';
+  modelEl.textContent='Análisis de IA';
+
+  status.className='ai-status';
+
+  if(mode==='completed'){
+    status.textContent='● ANÁLISIS COMPLETADO';
+    status.classList.add('good');
+
+    const items=(s.ai_results||[]).slice(0,5);
+
+    if(!items.length){
+      resultsEl.innerHTML='<div class="ai-empty">Sin scores disponibles.</div>';
+      return;
+    }
+
+    resultsEl.innerHTML=items.map(item=>{
+      const score=Number(item.score||0);
+      const pct=Math.max(0,Math.min(100,score*100));
+      return `
+        <div class="ai-row">
+          <div class="ai-name">${item.pathology}</div>
+          <div class="ai-score">${score.toFixed(4)}</div>
+          <div class="ai-bar"><span style="width:${pct}%"></span></div>
+        </div>
+      `;
+    }).join('');
+
+  }else if(mode==='queued'||mode==='loading'||mode==='analyzing'){
+    status.textContent='● '+(message||'ANALIZANDO').toUpperCase();
+    status.classList.add('busy');
+    resultsEl.innerHTML=`
+      <div class="ai-empty">
+        ${message||'Procesando radiografía con IA...'}
+      </div>
+    `;
+
+  }else if(mode==='error'){
+    status.textContent='● ERROR IA';
+    status.classList.add('bad');
+    resultsEl.innerHTML=`
+      <div class="ai-empty">
+        ${s.ai_error||message||'No fue posible completar el análisis.'}
+      </div>
+    `;
+
+  }else{
+    status.textContent='ESPERANDO ESTUDIO';
+    resultsEl.innerHTML=`
+      <div class="ai-empty">
+        Adquiere una RX y almacénala en Orthanc para iniciar el análisis.
+      </div>
+    `;
+  }
+}
+
+
+let lastSegmentationVersion=0;
+
+function renderSegmentation(s){
+  const status=document.getElementById('segStatus');
+  const img=document.getElementById('segImage');
+  const placeholder=document.getElementById('segPlaceholder');
+
+  const mode=s.segmentation_status||'idle';
+  const message=s.segmentation_message||'';
+
+  status.className='seg-status';
+
+  if(mode==='completed'){
+    status.textContent='● SEGMENTACIÓN COMPLETADA';
+    status.classList.add('good');
+
+    const version=Number(s.segmentation_version||0);
+
+    if(version && version!==lastSegmentationVersion){
+      lastSegmentationVersion=version;
+      img.src='/api/ai/segmentation?v='+version;
+    }
+
+    img.style.display='block';
+    placeholder.style.display='none';
+
+  }else if(mode==='queued'||mode==='loading'||mode==='analyzing'){
+    status.textContent='● '+(message||'SEGMENTANDO').toUpperCase();
+    status.classList.add('busy');
+
+    img.style.display='none';
+    placeholder.style.display='block';
+    placeholder.textContent=message||'Procesando segmentación anatómica...';
+
+  }else if(mode==='error'){
+    status.textContent='● ERROR SEGMENTACIÓN';
+    status.classList.add('bad');
+
+    img.style.display='none';
+    placeholder.style.display='block';
+    placeholder.textContent=s.segmentation_error||message||'No fue posible generar la segmentación.';
+
+  }else{
+    status.textContent='ESPERANDO ESTUDIO';
+
+    img.style.display='none';
+    placeholder.style.display='block';
+    placeholder.textContent='La segmentación aparecerá aquí después del análisis.';
+  }
+}
+
+document.getElementById('aiRetry').onclick=async()=>{
+  const b=document.getElementById('aiRetry');
+  b.textContent='INICIANDO...';
+  const response=await post('/api/ai/reanalyze');
+  setTimeout(()=>b.textContent='ANALIZAR NUEVAMENTE',1200);
+};
+
+async function refreshState(){
+  try{
+    const s=await (await fetch('/api/state',{cache:'no-store'})).json();
+    emergency=!!s.emergency_stop;
+    const st=document.getElementById('status');
+    st.textContent=s.blender_connected?'Blender conectado':'Esperando Blender';
+    st.className='badge'+(s.blender_connected?' good':'');
+
+    const pacs=document.getElementById('pacsStatus');
+    if(s.orthanc_connected){
+      pacs.textContent='PACS · ORTHANC CONECTADO';
+      pacs.className='badge good';
+    }else{
+      pacs.textContent='PACS · ORTHANC DESCONECTADO';
+      pacs.className='badge';
+    }
+
+    document.getElementById('message').textContent=s.blender_message||'Sistema listo';
+    renderAi(s);
+    renderSegmentation(s);
+    renderRecord(s);
+    const stop=document.getElementById('stop');
+    stop.textContent=emergency?'REANUDAR':'STOP';
+    stop.className='stop'+(emergency?' active':'');
+    if(s.camera_frame_version!==feedVersion){
+      feedVersion=s.camera_frame_version;
+      if(feedVersion>0){
+        const img=document.getElementById('cameraFeed');
+        img.src='/api/camera/frame?v='+feedVersion+'&t='+Date.now();
+        document.getElementById('feedPlaceholder').style.display='none';
+      }
+    }
+    const incomingRx=Number(s.rx_version||0);
+    if(rxVersion===-1){
+      rxVersion=incomingRx;
+      if(rxVersion>0){
+        rxAvailable=true;
+        document.getElementById('viewRx').style.display='block';
+        document.getElementById('rxImage').src='/api/rx/image?v='+rxVersion+'&t='+Date.now();
+        document.getElementById('rxMeta').textContent=s.rx_time||'';
+      }
+    }else if(incomingRx!==rxVersion){
+      rxVersion=incomingRx;
+      if(rxVersion>0){
+        rxAvailable=true;
+        document.getElementById('viewRx').style.display='block';
+        document.getElementById('rxImage').src='/api/rx/image?v='+rxVersion+'&t='+Date.now();
+        document.getElementById('rxMeta').textContent='● IMAGEN ADQUIRIDA  '+(s.rx_time||'');
+        document.getElementById('capture').textContent='GENERAR RX';
+        showRx();
+      }else{
+        rxAvailable=false;
+        document.getElementById('viewRx').style.display='none';
+        document.getElementById('rxImage').removeAttribute('src');
+        document.getElementById('rxMeta').textContent='';
+        hideRx();
+      }
+    }
+  }catch(e){}
+}
+
+setInterval(refreshState,350);
+refreshState();
+setInterval(()=>post('/api/camera/watch'),900);
+post('/api/camera/watch');
+
+// Evita menú contextual/zoom accidental durante la operación.
+document.addEventListener('contextmenu',e=>e.preventDefault());
+</script>
+</body>
+</html>

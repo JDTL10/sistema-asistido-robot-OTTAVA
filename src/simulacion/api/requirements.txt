@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pydicom
+Pillow
+numpy
+torch
+torchvision
+torchxrayvision
+scikit-image
+reportlab
